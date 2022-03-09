@@ -58,3 +58,113 @@
 
 ![image-20220309164622712](D:\JavaProjects\studyRecords\img\image-20220309164622712.png)
 
+#### 1.6 什么是 JDK，JRE 
+
+##### 1.6.1 JDK 基本介绍 
+
+1. JDK 的全称(Java Development Kit Java 开发工具包) JDK = JRE + java 的开发工具 [java, javac,javadoc,javap 等]
+
+2. JDK 是提供给 Java 开发人员使用的，其中包含了 java 的开发工具，也包括了 JRE。所以安装了 JDK，就不用在单独 安装 JRE 了。 
+
+##### 1.6.2 JRE 基本介绍 
+
+1) JRE(Java Runtime Environment Java 运行环境) JRE = JVM + Java 的核心类库[类] 
+2. 包括 Java 虚拟机(JVM Java Virtual Machine)和 Java 程序所需的核心类库等，如果想要运行一个开发好的 Java 程序， 计算机中只需要安装 JRE 即可。 
+
+##### 1.6.3 JDK、JRE 和 JVM 的包含关系 
+1) JDK = JRE + 开发工具集（例如 Javac,java 编译工具等) 
+2)  JRE = JVM + Java SE 标准类库（java 核心类库） 
+3) 如果只想运行开发好的 .class 文件 只需要 JRE
+
+#### 1.7 Java 开发注意事项和细节
+
+1. Java源文件以java为扩展名。源文件的基本组成部分是类(class) ，如本类中的Hello类。
+
+2. Java应用程序的执行入口是main(方法。 它有固定的书写格式:
+
+  `public static void main(String[] args) {..}`
+
+3. Java语言严格区分大小写。
+
+4. Java方法由一条条语句构成，每个语句以","结束。
+
+5. 大括号都是成对出现的，缺一不可。[习惯， 先写{}再写代码]
+
+6. 一个源文件中最多只能有一个public类。其它类的个数不限。[演示]
+
+7. 如果源文件包含一个public类， 则文件名必须按该类名命名! [演示]
+
+8. 一个源文件中最多只能有一个public类。 其它类的个数不限，也可以将main方法写在非public类中，然后指定运行非public类，这样入口方法就是非public 的main方法
+
+![image-20220309174527080](D:\JavaProjects\studyRecords\img\image-20220309174527080.png)
+
+#### 1.8 注释
+
+1) 单行注释 // 
+2) 多行注释 /* */ 
+3) 文档注释 /** */
+
+#### 1.9 DOS命令（了解）
+
+##### 1.9.1 DOS介绍
+
+Dos： Disk Operating System 磁盘操作系统。
+
+##### 1.9.2 相对路径、绝对路径
+
+![image-20220309175018529](D:\JavaProjects\studyRecords\img\image-20220309175018529.png)
+
+##### 1.9.3 常用DOS命令
+
+1、查看当前目录内容 dir
+
+dir d:\abc2\test200
+
+2、切换到其他盘下	盘符号 cd :chang directory
+
+cd /D c:
+
+3、切换到当前盘的其他目录下 (使用相对路径和绝对路径演示), ..\表示上一级目录 
+
+cd d:\abc2\test200 
+
+4、切换到上一级
+
+ cd ..
+
+5、切换到根目录
+
+cd \
+
+6、查看指定的目录下所有的子级目录
+
+tree
+
+7、清屏 cls
+
+8、退出 DOS exit
+
+# 第二章 变量
+
+#### 2.1 变量
+
+##### 2.1.1概念
+
+​	**变量相当于内存中一个数据存储空间**的表示，你可以把变量看做是一个房间的**门牌号**，通过门牌号我们可以找到房 间，而通过变量名可以访问到变量(值)。
+
+##### 2.1.2 使用变量
+
+```java
+//1) 声明变量
+	int a;
+//2) 赋值
+	a = 60;
+	System.out.println(a);
+```
+
+#### 2.2 变量使用注意事项
+
+1、变量表示内存中的一个存储区域 [不同的变量，类型不同，占用的空间大小不同，比如：int 4个字节，double 8个字节]
+
+2、该区域有自己的名称[变量名]和类型[数据类型]
+
