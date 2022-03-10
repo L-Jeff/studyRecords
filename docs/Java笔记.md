@@ -34,7 +34,7 @@
 
 3.  Java 语言是**跨平台性**的。[即: 一个编译好的.class 文件可以在多个系统下运行，这种特性称为跨平台]
 
-   ![image-20220309164117500](D:\JavaProjects\studyRecords\img\image-20220309164117500.png)
+   ![image-20220309164117500](..\img\image-20220309164117500.png)
 
 4. Java 语言是解释型的[了解] 
 
@@ -48,7 +48,7 @@
 
 ##### 1.5.1 跨平台性
 
-![image-20220309164425642](D:\JavaProjects\studyRecords\img\image-20220309164425642.png)
+![image-20220309164425642](..\img\image-20220309164425642.png)
 
 ##### 1.5.2 核心机制 JVM
 
@@ -56,7 +56,7 @@
 2)  对于不同的平台，有不同的虚拟机。 
 3)  Java 虚拟机机制屏蔽了底层运行平台的差别，实现了“一次编译，到处运行” [说明]
 
-![image-20220309164622712](D:\JavaProjects\studyRecords\img\image-20220309164622712.png)
+![image-20220309164622712](..\img\image-20220309164622712.png)
 
 #### 1.6 什么是 JDK，JRE 
 
@@ -96,7 +96,7 @@
 
 8. 一个源文件中最多只能有一个public类。 其它类的个数不限，也可以将main方法写在非public类中，然后指定运行非public类，这样入口方法就是非public 的main方法
 
-![image-20220309174527080](D:\JavaProjects\studyRecords\img\image-20220309174527080.png)
+![image-20220309174527080](..\img\image-20220309174527080.png)
 
 #### 1.8 注释
 
@@ -112,7 +112,7 @@ Dos： Disk Operating System 磁盘操作系统。
 
 ##### 1.9.2 相对路径、绝对路径
 
-![image-20220309175018529](D:\JavaProjects\studyRecords\img\image-20220309175018529.png)
+![image-20220309175018529](..\img\image-20220309175018529.png)
 
 ##### 1.9.3 常用DOS命令
 
@@ -188,7 +188,7 @@ tree
 
 ​	每一种数据都定义了明确的数据类型，在内存中分配了不同大小的内存空间（字节）
 
-![image-20220309194130090](E:\myrepository\studyRecords\img\image-20220309194130090.png)
+![image-20220309194130090](..\img\image-20220309194130090.png)
 
 #### 2.5 整数类型
 
@@ -282,7 +282,7 @@ tree
 
 ##### 	2.9.1 自动类型转换
 
-​	![image-20220309212443859](E:\myrepository\studyRecords\img\image-20220309212443859.png)
+​	![image-20220309212443859](..\img\image-20220309212443859.png)
 
 ##### 2.9.2 自动类型转换注意和细节
 
