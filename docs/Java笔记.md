@@ -2505,3 +2505,230 @@ WrapperType.java
 2、jdk 5以后（包含jdk5）的自动装箱和拆箱方式
 
 3、自动装箱底层调用的是valueOf方法，比如Integer.valueOf()
+
+#### 11.2 String 类
+
+##### 11.2.1 String 类的理解和创建对象
+
+1、String 对象用于保存字符串，也就是一组字符序列
+
+2、字符串常量对象是用双引号括起的字符序列
+
+3、字符串的字符是用Unicode 字符编码，一个字符（不区分字母还是汉字）占两个字节
+
+4、String 类较常用构造器
+
+```java
+String s1 = new String();
+String s2 = new String(String original);
+String s3 = new String(char[] a);
+String s4 = new String(char[] a,int startIndex,int count);
+```
+
+5、String 实现了Serializable，说明String可以序列化
+
+​	String 实现了Comparable接口，说明String对象可以比较
+
+![image-20220322150235985](../img/image-20220322150235985.png)
+
+##### 11.2.2 创建String 对象的两种方式
+
+1、直接赋值	String s = "jeff";
+
+2、调用构造器	String s = new String("jeff");
+
+##### 11.2.3 两种创建方式的区别
+
+方式一：先从常量池查看是否有 "jeff" 数据空间，如果有，直接指向；如果没有则重新创建，然后指向。s最终指向的是常量池的空间地址
+
+方式二：现在堆中创建空间，里面维护了value属性，指向常量池的 "jeff" 空间。如果常量池中没有 "jeff" ，重新创建；如果有，直接通过 value 指向。最终指向的是堆中的空间地址
+
+##### 11.2.4 字符串的特性
+
+1、String 是一个final类，代表不可变的字符序列
+
+2、字符串是不可变的。一个字符串对象一旦被分配，其内容是不可变的
+
+```java
+String a = "hello";
+String b = "abc";
+String c = a + b;
+String c1 = "hello" + "abc";
+```
+
+c1 是常量相加，看的是池
+
+c 是变量相加，是在堆中，底层是 StringBuilder 
+
+StringBulider sb = new StringBuilder();
+
+sb.append(a);
+
+sb.append(b);
+
+sb 是在堆中，并且append 是在原来字符串的基础上追加的
+
+#### 11.3 String 类的常见方法
+
+##### 11.3.1 说明
+
+String类是保存字符串常量的。每次更新都需要重新开辟空间，效率较低，因此java设计者还提供了StringBulider和StringBuffer 来增强String 的功能，并提高效率
+
+```java
+String s = new String("");
+for(int i = 0;i < 8000;i++){
+    s += "hello";
+}//将会创建8001个对象
+```
+
+##### 11.3.2 String 类的常见方法
+
+equals	区分大小写，判断内容是否相等
+
+equalsIngoreCase	忽略大小写的判断内容是否相等
+
+length	获取字符的个数，字符串的长度
+
+indexOf	获取字符在字符串中第1次出现的索引，索引从0开始，如果找不到，返回-1
+
+lastIndexOf	获取字符在字符串中最后1次出现的索引，索引从0开始，如果找不到，返回-1
+
+substring	截取指定范围的子串
+
+trim	去前后空格
+
+charAt	获取某索引处的字符，注意不能使用Str[index]这种方式
+
+toUpperCase	将字符串全转换成大写并返回
+
+toLowerCase	将字符串全转换成小写并返回
+
+concat	连接 String 的一个或多个实例，或 String 的一个或多个实例的值的 Object 表示形式。
+
+replace	返回一个新字符串，其中已将当前字符串中的指定 Unicode 字符或 String 的所有匹配项替换为其他指定的 Unicode 字符或 String。
+
+split	返回的字符串数组包含此实例中的子字符串（由指定字符串或 Unicode 字符数组的元素分隔）。
+
+compareTo	将此实例与指定对象或 String 进行比较，并返回一个整数，该整数指示此实例在排序顺序中是位于指定对象或 String 之前、之后还是与其出现在同一位置。
+
+toCharArray	将此实例中的字符复制到 Unicode 字符数组
+
+format	将对象的值转换为基于指定格式（正则表达式）的字符串，并将其插入到另一个字符串。
+
+#### 11.4 StringBuffer 类
+
+##### 11.4.1 基本介绍
+
+1、java.lang.StringBuffer 代表可变的字符序列，可以对字符串内容进行增删
+
+2、很多方法与String 相同，但StringBuffer 是可变长度的
+
+3、StringBuffer 是一个容器
+
+![QQ截图20220322153248](../img/QQ截图20220322153248.png)
+
+##### 11.4.2 String vs StringBuffer
+
+1、String 保存的是字符串常量，里面的值不能更改，每次String类的更新实际上就是保存地址，效率较低
+
+​	//private final char value[];
+
+2、StringBuffer 保存的是字符串变量，里面的值可以更改，每次StringBuffer 的更新实际上是更新内容，不用每次更新地址，效率较高
+
+​	//char[] value; 存在在堆中
+
+#### 11.5 StringBulider 类
+
+##### 11.5.1 基本介绍
+
+1、一个可变的字符序列。此类提供一个与StringBuffer 兼容的API，但不保证同步（StringBuilder 不是线程安全）。该类被设计用作 StringBuffer 的一个简易替换，**用在字符串缓冲区被单个线程使用的时候**。如果可能，建议优先采用该类，因为在大多数实现中，它比StringBuffer 要快
+
+2、在StringBuilder 上的主要操作是 append 和 insert 方法，可重载这些方法，以接收任意类型的数据
+
+##### 11.5.2 StringBuilder 常用方法
+
+StringBuilder 和StringBuffer 均代表可变的字符序列，方法是一样的。
+
+![image-20220322155134556](../img/image-20220322155134556.png)
+
+1、StringBuilder 是final类
+
+2、继承了 AbstractStringBuilder，属性 char[] value，内容存在value
+
+3、实现了 Serializable 接口，序列化
+
+#### 11.6 String、StringBuffer 和StringBuilder
+
+##### 11.6.1 String、StringBuffer 和StringBuilder 的比较
+
+1、StringBuffer 和StringBuilder 非常类似，均代表可变的字符序列，而且方法也一样
+
+2、String：不可变字符序列，效率低，但是复用率高
+
+3、StringBuffer：可变字符序列，效率较高（增删）、线程安全
+
+4、StringBuilder：可变字符序列，效率最高、线程不安全
+
+5、String 使用注意说明
+
+​	String s = "a";
+
+​	s + = "b";
+
+​	实际上原来的"a"字符串已经丢失了，现在又产生了一个字符串 s + "b" (也就是"ab")。如果多次执行这些改变内容的操作，会导致大量副本字符串对象存留在内容中，降低效率。如果这样的操作放到循环中，会极大影响程序的性能
+
+结论：如果我们对 字符串 做大量修改，不用使用 String
+
+##### 11.6.2 String、StringBuffer 和StringBuilder 的选择
+
+使用的原则：
+
+1、如果字符串存在大量的修改操作，一般使用 StringBuffer 或 StringBuilder
+
+2、如果字符串存在大量的修改操作，并在单线程的情况，使用 StringBuilder
+
+3、如果字符串存在大量的修改操作，并在多线程的情况，使用StringBuffer
+
+4、如果我们字符串很少修改，被多个对象 引用，使用String，比如配置信息等
+
+#### 11.7 Math 类
+
+##### 11.7.1 基本介绍
+
+Math 类包含用于执行基本数学运算的方法，如初等指数、对数、平方根和三角函数
+
+##### 11.7.2 方法一览（均为静态方法）
+
+![image-20220322161618197](../img/image-20220322161618197.png)
+
+#### 11.8 Arrays 类
+
+##### 11.8.1 Arrays 类常用方法
+
+Arrays 类里面包含了一系列静态方法，用于管理或操作数组（比如排序和搜索）
+
+1、toString 返回数组的字符串形式
+
+2、sort 排序
+
+3、binarySearch 通过二分搜索法进行查找，要求必须排好序
+
+4、copyOf 数组元素的赋值
+
+5、fill 数组元素的填充
+
+6、equals 比较两个数组元素内容是否完全一致
+
+7、asList 将一组值，转换成list
+
+#### 11.9 System 类
+
+##### 11.9.1 System 类常见方法
+
+1、exit 退出当前系统
+
+2、arraycopy 复制数组元素，比较适合底层调用，一般使用 Arrays.copyOf完成复制数组
+
+3、currentTimeMillens 返回当前时间距离 1970 - 1 - 1 的毫秒数
+
+4、gc 运行垃圾回收机制
