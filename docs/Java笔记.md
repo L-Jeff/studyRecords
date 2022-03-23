@@ -2882,3 +2882,160 @@ MonthDay 类：检查重复时间
 ![image-20220322235758173](../img/image-20220322235758173.png)
 
 ![image-20220322235814197](../img/image-20220322235814197.png)
+
+1、集合主要是两组(单列集合 , 双列集合) 
+
+2、 Collection 接口有两个重要的子接口 List Set , 他们的实现子类都是单列集合 
+
+3.、Map 接口的实现子类 是双列集合，存放的 K-V
+
+#### 12.2 Collection 接口和常用方法
+
+##### 12.2.1 Collection 接口实现类的特点
+
+```java
+public interface Collection<E> extends Iterable<E>
+```
+
+1、collection 实现子类可以存放多个元素，每个元素可以是Object
+
+2、有些Collection 的实现类，可以存放重复的元素，有些不可以
+
+3、有些Collection 的实现类，有些是有序的（List），有些是无序的（Set）
+
+4、Collection 接口没有直接的实现子类，是通过它的子接口Set 和 List 来实现的
+
+##### 12.2.2 Collection 接口遍历元素方式 1-使用Iterator（迭代器）
+
+![image-20220323111646615](../img/image-20220323111646615.png)
+
+1、Iterato 对象称为迭代器，主要用于遍历 Collection 集合中的元素
+
+2、所有实现了 Collection 接口的集合类都有一个 iterator()方法，用以返回一个实现了Iterator 接口的对象，即可以返回一个迭代器
+
+3、Iterator 的结构
+
+4、Iterator 仅用于遍历集合，Iterator 本身并不存放对象
+
+![image-20220323111919193](../img/image-20220323111919193.png)
+
+![image-20220323111935149](../img/image-20220323111935149.png)
+
+在调用 iterator.next() 方法之前必须要调用 iterator.hasNext() 进行检测。若不调用，且下一条记录无效，直接调用 iterator.next() 会抛出NoSuchElementException
+
+##### 12.2.3 Collection 接口遍历对象方式 2-for 循环增强
+
+增强for 循环，可以代替 iterator 迭代器
+
+特点：增强for 就是简化版的 iterator，本质一样。只能用于遍历集合或数组
+
+基本语法
+
+```java
+for(元素类型 元素名:集合名或数组名){
+    访问元素
+}
+```
+
+#### 12.3 List 接口和常用方法
+
+##### 12.3.1 List 接口基本介绍
+
+List 接口是Collection 接口的子接口
+
+1、List 集合类中元素有序（即添加顺序和取出顺序一致）、且可重复
+
+2、List 集合中的每个元素都有其对应的顺序索引，即支持索引
+
+3、List 容器中的元素都对应一个整数型的序号，记载其在容器中的位置，可以根据序号存取容器中的元素
+
+4、JDK API 中List 接口的实现类有
+
+![image-20220323150358906](../img/image-20220323150358906.png)
+
+#### 12.4 ArrayList 底层结构和原码分析
+
+##### 12.4.1 ArrayList 的注意事项
+
+1、permits all elements , including null ArrayList 可以加入null，并且多个
+
+2、ArrayList 是由数组来实现数据存储的
+
+3、ArrayList 基本等同于Vector，除了ArrayList 是线程不安全的，在多线程情况下，不建议使用ArrayList
+
+##### 12.4.2 ArrayList 的底层操作机制源码分析（重点）
+
+1、ArrayList 中维护了一个Object 类型的数组 elementData
+
+​	transient Object[] elementData;// transient  表示瞬间，短暂的 该属性不会被序列化
+
+2、当创建ArrayList 对象时，如果使用的是无参构造器，则初始elementData 容量为0，第1次添加，则扩容elementData为10，如需要再次扩容，则扩容elementData为1.5倍
+
+3、如果使用的是指定大小的构造器，则初始elementData容量为指定大小，如果需要扩容，则直接扩容elementData为1.5倍
+
+![微信截图_20220323162755](C:/Users/Belief/Desktop/微信截图_20220323162755.png)
+
+#### 12.5 Vector 底层结构和原码分析
+
+##### 12.5.1 Vector 基本介绍
+
+1、Vector 类的定义说明
+
+![image-20220323164736224](../img/image-20220323164736224.png)
+
+2、Vector 底层也是一个对象数组
+
+​	protected Object[] elementData;
+
+3、Vector 是线程同步的，即线程安全，Vector类的操作方法带有**synchronized**
+
+```java
+public synchronized E get(int index){
+    if(index >= elementCount)
+        throw new ArryaIndexOutOfBoundsException(index);
+    return elementData(index);
+}
+```
+
+4、在开发中，需要线程同步安全时，考虑使用Vector
+
+##### 12.5.2 Vector和ArrayList 的比较
+
+|           | 底层结构              | 版本   | 线程安全（同步）效率 | 扩容倍数                                                     |
+| --------- | --------------------- | ------ | -------------------- | ------------------------------------------------------------ |
+| ArrayList | 可变数组              | jdk1.2 | 不安全，效率高       | 如果有参构造1.5倍<br/>如果是无参<br/>1.第一次10<br/>2.从第二次开始按1.5倍扩容 |
+| Vector    | 可变数组<br/>Object[] | jdk1.0 | 安全，效率不高       | 如果是无参，默认10，满后，就按2被扩容<br/>如果指定大小，则每次直接按2被扩容 |
+
+#### 12.6 LinkedList 底层结构
+
+##### 12.6.1 LinkedList 基本介绍
+
+1、LinkedList 底层实现了双向**链表**和双端**队列**特点
+
+2、可以添加任意元素（元素可以重复），包括null
+
+3、线程不安全，没有实现同步
+
+##### 12.6.2 LinkedList 的底层操作机制
+
+1、LinkedList 底层维护了一个双向链表
+
+2、LinkedList 中维护了两个属性first 和last 分别指向首节点和尾节点
+
+3、每个节点（Node对象），里面又维护了prev、next、item三个属性，其中prev指向前一个，通过next指向后一个节点。最终实现双向链表
+
+4、所以LinkedList的元素的**添加和删除**，不是通过数组完成的，相对来说效率较高
+
+##### 12.6.3 ArrayList 和LinkedList 的比较
+
+|            | 底层结构 | 增删的效率         | 改查的效率 |
+| ---------- | -------- | ------------------ | ---------- |
+| ArrayList  | 可变数组 | 较低<br/>数组扩容  | 较高       |
+| LinkedList | 双向链表 | 较高，通过链表追加 | 较低       |
+
+1、如果我们改查操作多，选择ArrayList
+
+2、如果我们增删操作多，选择LinkedList
+
+3、一般来说，在程序中，80%-90%都是查询，因此大部分情况下会选择使用ArrayList
+
