@@ -3039,3 +3039,375 @@ public synchronized E get(int index){
 
 3、一般来说，在程序中，80%-90%都是查询，因此大部分情况下会选择使用ArrayList
 
+#### 12.7 Set 接口和常用方法
+
+##### 12.7.1 Set 基本介绍
+
+1、无序（添加和取出的顺序不一致，**取出的顺序的顺序虽然不是添加的顺序，但是他的固定**），没有索引
+
+2、不允许重复元素，所以最多包含一个null
+
+3、JDK API 中Set 接口的实现类有
+
+![image-20220324101225752](../img/image-20220324101225752.png)
+
+##### 12.7.2 Set 接口的遍历方式
+
+1、可以使用迭代器
+
+2、增强for
+
+3、**不能使用**索引的方式来获取
+
+#### 12.8 Set 接口的实现类-HashSet
+
+##### 12.8.1 HashSet 的介绍
+
+1、HashSet 实现了Set 接口
+
+2、HashSet 实际上是HashMap 
+
+![image-20220324101645545](../img/image-20220324101645545.png)
+
+默认初始容量为16、加载因子0.75，临界值（threshold）16*加载因子
+
+3、可以存放null 值，但是只能有一个null
+
+4、HashSet 不保证元素是有序的，取决于 hash后，再确定索引的结果。（即，不保证存放元素的顺序和取出顺序一致）
+
+5、不能有重复元素/对象
+
+##### 12.8.2 HashSet 底层机制
+
+HashSet 底层是HashMap，HashMap 底层是（数组 + 链表 + 红黑树）
+
+![image-20220324110941147](../img/image-20220324110941147.png)
+
+HashSet 的**扩容**和**转成红黑树机制**
+
+![image-20220324112236467](../img/image-20220324112236467.png)
+
+#### 12.9 Set 接口实现类-LinkedHashSet
+
+##### 12.9.1 LinedHashSet 介绍
+
+1、LinkedHashSet 是HashSet 的子类
+
+![image-20220324141011891](../img/image-20220324141011891.png)
+
+2、LinkedHashSet 底层是一个 LinkedHashMap， 底层维护了一个 数组 + 双向链表
+
+3、LinkedHashSet 根据元素的 hashCode 值来决定元素的存储位置，同时使用链表维护元素的**次序**，这使得元素看起来是以插入顺序保存的
+
+![image-20220324141259199](../img/image-20220324141259199.png)
+
+4、LinkedHashSet 不允许重复添加元素
+
+#### 12.10 Map 接口和常用方法
+
+##### 12.10.1 Map 接口实现类的特点
+
+注意：这里讲的是JDK8 的Map接口特点
+
+1、Map 与Collection 并列存在。用于保存具有映射关系的数据：key - value
+
+2、Map 中的key 和value 可以是任意引用类型的数据，会封装到 HashMap$Node 对象中
+
+3、Map 中的key 不允许重复，原因和HashSet 一样
+
+4、Map 中的value 可以重复
+
+5、Map 的key 可以为null，value 也可以为null，注意key 为null，只能有一个，value 为null，可以多个
+
+6、常用String 类作为Map 的key
+
+7、key 和value 之间存在单向一对一关系，即通过指定的key 总能找到对应的value
+
+8、Map 存放数据的key - value 示意图，一对 k-v 是放在一个HashMap$Node中的，有因为Node 实现了Entry 接口，有些书上也说 一对 k-v 就是一个Entry
+
+![image-20220324142257868](../img/image-20220324142257868.png)
+
+##### 12.10.2 Map接口遍历方法
+
+1、containsKey：查找键是否存在
+
+2、keySet：获取所有的键
+
+3、entrySet：获取所有关系 k-v
+
+4、values：获取所有值
+
+```java
+//第一组: 先取出 所有的 Key , 通过 Key 取出对应的 Value
+Set keyset = map.keySet()
+//(1) 增强 for
+System.out.println("-----第一种方式-------");
+for (Object key : keyset) {
+	System.out.println(key + "-" + map.get(key));
+}
+//(2) 迭代器
+System.out.println("----第二种方式--------");
+Iterator iterator = keyset.iterator();
+while (iterator.hasNext()) {
+    Object key = iterator.next();
+    System.out.println(key + "-" + map.get(key));
+}
+//第二组: 把所有的 values 取出
+Collection values = map.values();
+//这里可以使用所有的 Collections 使用的遍历方法
+//(1) 增强 for
+System.out.println("---取出所有的 value 增强 for----");
+for (Object value : values) {
+	System.out.println(value);
+}
+//(2) 迭代器
+System.out.println("---取出所有的 value 迭代器----");
+Iterator iterator2 = values.iterator();
+while (iterator2.hasNext()) {
+    Object value = iterator2.next();
+    System.out.println(value);
+}
+//第三组: 通过 EntrySet 来获取 k-v
+Set entrySet = map.entrySet();// EntrySet<Map.Entry<K,V>>
+//(1) 增强 for
+System.out.println("----使用 EntrySet 的 for 增强(第 3 种)----");
+for (Object entry : entrySet) {
+//将 entry 转成 Map.Entry
+Map.Entry m = (Map.Entry) entry;
+System.out.println(m.getKey() + "-" + m.getValue());
+}
+//(2) 迭代器
+System.out.println("----使用 EntrySet 的 迭代器(第 4 种)----");
+Iterator iterator3 = entrySet.iterator();
+while (iterator3.hasNext()) {
+Object entry = iterator3.next();
+//System.out.println(next.getClass());//HashMap$Node -实现-> Map.Entry (getKey,getValue)
+//向下转型 Map.Entry
+Map.Entry m = (Map.Entry) entry;
+System.out.println(m.getKey() + "-" + m.getValue());
+}
+```
+
+#### 12.11 Map 接口实现类-HashMap
+
+##### 12.11.1 HashMap 小结
+
+1、Map 接口的常用实现类：HashMap、Hashtable 和Properties
+
+2、HashMap 是Map 接口使用频率最高的实现类
+
+3、HashMap 是以key-val 对的方式来存储数据（HashMap$Node类型）
+
+4、key 不能重复，但是值可以重复，允许使用null 键和null 值
+
+5、如果添加相同的key，则会覆盖原来的key-val，等同于修改
+
+6、与HashSet 一样，不保证映射的顺序，因为底层是以hash 表的方式来存储的（jdk8 的HashMap 底层 数组+链表+红黑树）
+
+7、HashMap 没有实现同步，因此是线程不安全的，方法没有做同步互斥的操作，没有synchronized
+
+##### 12.11.2  HashMap 底层机制及源码剖析
+
+![image-20220324143324486](../img/image-20220324143324486.png)
+
+##### 12.11.3 HashMap 底层机制及源码剖析
+
+扩容机制 [和HashSet 相同]
+
+1、HashMap 底层维护了Node 类型的数组table，默认为null
+
+2、当创建对象时，将加载因子（loadfactor）初始化为0.75
+
+3、当添加key-val 时，通过**key**的哈希值得到在table的索引。然后判断该索引处是否有元素，如果没有元素直接添加。如果该索引处有元素，继续判断该元素的key 和准备加入的key 是否相等，如果相等，则直接替换val；如果不相等需要判断是树结构还是链表结构，做出相应处理。如果添加时发现容量不够，则需要扩容
+
+4、第1次添加，则需要扩容table 容量为16，临界值（threshold）为12（16*0.75）
+
+5、以后再扩容，则需要扩容table 容量为原来的2倍（32），临界值为原来的2倍，即24，依次类推
+
+6、在Java8中，如果一条链表的元素个数超过 TREEIFY_THRESHOLD（默认是8）并且table 的大小 >= MIN_TREEIFY_CAPACITY（默认64），就会进行树化（红黑树）
+
+#### 12.12 HashMap 接口实现类-Hashtable
+
+##### 12.12.1 Hashtable 基本介绍
+
+1、存放的元素是键值对：即 K-V
+
+2、hashtable 的键和值都不能为null，否则会抛出NullPointerException
+
+3、hashtable 使用方法基本上和HashMap 一样
+
+4、hashtable 是线程安全的（synchronized），HashMap 是线程不安全的
+
+##### 12.12.2 Hashtable 和HashMap 对比
+
+|           | 版本 | 线程安全（同步） | 效率 | 允许null键null值 |
+| --------- | ---- | ---------------- | ---- | ---------------- |
+| HashMap   | 1.2  | 不安全           | 高   | 允许             |
+| Hashtable | 1.0  | 安全             | 较低 | 不允许           |
+
+#### 12.13 Map 接口实现类-Properties
+
+##### 12.13.1 基本介绍
+
+1、Properties类继承自Hashtable 类并且实现了Map 接口，也是使用一种键值对的形式来保存数据
+
+2、使用特点和Hashtable 类似
+
+3、Properties **还可以用于** 从xxx.properties 文件中，加载数据到 Properties 类对象，并进行读取和修改
+
+##### 12.13.2 基本使用
+
+1、put 增加
+
+2、remove 删除
+
+3、put 修改	//重新存放，进行覆盖
+
+4、get 查
+
+#### 12.14 总结
+
+在开发中，选择什么集合实现类，主要取决于**业务操作特点**，然后根据集合实现类特定进行选择，分析如下：
+
+1、先判断存储的类型（一组对象[单列]或一组键值对[双列]）
+
+2、一组对象[单列]：Collection 接口
+
+​	允许重复：List
+
+​			增删多：LinkedList [底层维护了一个双向链表]
+
+​			改查多：ArrayList [底层维护Object 类型的可变数组]
+
+​	不允许重复：Set
+
+​			无序：HashSet [底层是HashMap，维护了一个哈希表 即（数组 + 链表 + 红黑树）]
+
+​			排序：TreeSet
+
+​			插入和取出顺序一致： LinkedHashSet ，维护数组 + 双向链表
+
+3、一组键值对 [双列]：Map
+
+​			键无序：HashMap [底层是：哈希表 jdk7: 数组 + 链表 ，jdk8：数组 + 链表 + 红黑树]
+
+​			键排序：TreeMap
+
+​			键插入和取出顺序一致：LinkedHashMap
+
+​			读取文件：Properties
+
+#### 12.15 Collections 工具类
+
+##### 12.15.1 Collections 工具类介绍
+
+1、Collections 是一个操作Set、List 和Map 等集合的工具类
+
+2、Collections 中提供了一系列静态的方法对集合元素进行排序、查询和修改等操作
+
+##### 12.15.2 排序操作
+
+1、reverse(List)：反转List 中元素的排序
+
+2、shuffle(List)：对List 集合元素进行随机排序
+
+3、sort(List)：根据元素的自然顺序对指定List 集合元素按升序排序
+
+4、sort(List,Comparator)：根据指定的Comparator 产生的顺序对List 集合元素进行排序
+
+5、swap(List,int,int)：将指定List 集合中的 i 处元素和 j 处元素进行交换
+
+##### 12.15.3 查找、替换
+
+1、Object max(Collection)：根据元素的自然顺序，返回给定集合中的最大元素
+
+2、Object max(Collection, Comparator)：根据 Comparator 指定的顺序，返回给定集合中的最大元素
+
+3、Object min(Collection)：根据元素的自然顺序，返回给定集合中的最小元素
+
+4、Object min(Collection, Comparator)：根据 Comparator 指定的顺序，返回给定集合中的最小元素
+
+5、int frequency(Collection, Object)：返回指定集合中指定元素的出现次数
+
+6、void copy(List dest,List src)：将src 中的内容复制到的dest 中
+
+7、boolean replaceAll(List list, Object oldVal, Object newVal)：使用新值替换List 对象的所有旧值
+
+
+
+# 第十三章 泛型
+
+#### 13.1 泛型的理解
+
+##### 13.1.1 传统方式存在的问题
+
+1、不能对加入到集合ArrayList 中的数据类型进行约束（不安全）
+
+2、遍历的时候，需要进行类型转换，如果集合中的数据量较大，对效率有影响
+
+##### 13.1.2 泛型的好处
+
+1、编译时，检查添加元素的类型，提高了安全性
+
+2、减少了类型转换的次数，提高效率
+
+![image-20220325110355409](../img/image-20220325110355409.png)
+
+3、不再提示编译警告
+
+#### 13.2 泛型介绍
+
+1、泛型又称参数化类型，是jdk5.0 出现的新特性，解决数据类型的安全性问题
+
+2、在类声明或实例化时只要指定好需要的具体的类型即可
+
+3、Java 泛型可以保证如果程序在编译时没有发出警告，运行时就不会产生 ClassCastException 异常。同时代码更加简洁、健壮
+
+4、泛型的作用是：可以在类型声明时通过一个标识表示类中某个属性的类型，或者是某个方法的返回值的类型，或者是参数类型
+
+#### 13.3 泛型的语法
+
+##### 13.3.1 泛型的声明
+
+```java
+interface 接口<T>{} 和 class 类<K,V>{}
+```
+
+说明：
+
+1、其中，T、K、V不代表值，而是表示类型
+
+2、任意字母都可以。常用T表示，是Type的缩写
+
+##### 13.3.2 泛型的实例化
+
+要在类名后面指定类型参数的值（类型）如：
+
+```java
+//1、
+List<String> strList = new ArrayList<String>();
+//2、
+Iterator<Customer> iterator = customers.iterator();
+```
+
+##### 13.3.3 泛型使用的注意事项和细节
+
+1、interface List &lt;T&gt;{} ,public class HashSet &lt;E&gt;{}
+
+T、E 只能是引用类型
+
+2、在给泛型指定具体类型后，可以传入该类型或者其子类类型
+
+3、泛型使用形式
+
+```java
+List<Integer> list1 = new ArrayList<Integer>();
+List<Integer> list2 = new ArrayList<>();
+```
+
+#### 13.4 自定义泛型
+
+##### 13.4.1 自定义泛型类
+
+基本语法
+
