@@ -397,6 +397,14 @@ String类型转基本数据类型语法：
 
 5、当 “自增”当做一个表达式使用时 j = i++; 等价 j= i;i = i + 1;
 
+```java
+        int i = -5;
+        i =  ++(i++);//报错
+        System.out.println(i);
+```
+
+由于 i++后返回 -5，是个字面量，而单目运算符后面应该跟变量
+
 #### 3.3 关系运算符
 
 ##### 	3.3.1 介绍
@@ -583,13 +591,23 @@ else
 
 特点：关键字中所有字母都为小写
 
-![image-20220310103517358](../img/image-20220310103517358.png)
+| [abstract](https://baike.baidu.com/item/abstract)     | [assert](https://baike.baidu.com/item/assert)             | [boolean](https://baike.baidu.com/item/boolean)     | break                                                 | [byte](https://baike.baidu.com/item/byte)     |
+| ----------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------- | --------------------------------------------- |
+| case                                                  | [catch](https://baike.baidu.com/item/catch)               | [char](https://baike.baidu.com/item/char)           | [class](https://baike.baidu.com/item/class)           | const                                         |
+| continue                                              | [default](https://baike.baidu.com/item/default)           | [do](https://baike.baidu.com/item/do)               | [double](https://baike.baidu.com/item/double)         | [else](https://baike.baidu.com/item/else)     |
+| [enum](https://baike.baidu.com/item/enum)             | [extends](https://baike.baidu.com/item/extends)           | [final](https://baike.baidu.com/item/final)         | [finally](https://baike.baidu.com/item/finally)       | float                                         |
+| [for](https://baike.baidu.com/item/for)               | goto                                                      | [if](https://baike.baidu.com/item/if)               | [implements](https://baike.baidu.com/item/implements) | [import](https://baike.baidu.com/item/import) |
+| [instanceof](https://baike.baidu.com/item/instanceof) | [int](https://baike.baidu.com/item/int)                   | [interface](https://baike.baidu.com/item/interface) | long                                                  | native                                        |
+| new                                                   | [package](https://baike.baidu.com/item/package)           | [private](https://baike.baidu.com/item/private)     | [protected](https://baike.baidu.com/item/protected)   | [public](https://baike.baidu.com/item/public) |
+| [return](https://baike.baidu.com/item/return)         | [strictfp](https://baike.baidu.com/item/strictfp)         | [short](https://baike.baidu.com/item/short)         | [static](https://baike.baidu.com/item/static)         | [super](https://baike.baidu.com/item/super)   |
+| [switch](https://baike.baidu.com/item/switch)         | [synchronized](https://baike.baidu.com/item/synchronized) | [this](https://baike.baidu.com/item/this)           | [throw](https://baike.baidu.com/item/throw)           | throws                                        |
+| [transient](https://baike.baidu.com/item/transient)   | try                                                       | [void](https://baike.baidu.com/item/void)           | [volatile](https://baike.baidu.com/item/volatile)     | [while](https://baike.baidu.com/item/while)   |
 
-![image-20220310103528673](../img/image-20220310103528673.png)
+
 
 #### 	3.10 保留字
 
-Java 保留字：现有 Java 版本**尚未使用**，但**以后版本可能会作为关键字使用**。自己命名标识符时要避免使用这些保留 字 byValue、cast、future、 generic、 inner、 operator、 outer、 rest、 var 、 goto 、const
+Java 保留字：现有 Java 版本**尚未使用**，但**以后版本可能会作为关键字使用**。自己命名标识符时要避免使用这些保留字：byValue, cast, **false**, future, generic, inner,  operator, outer, rest, **true**, var, **goto**  （保留关键字）  ,   **const**  （保留关键字）  ,   **null**
 
 #### 	3.11 进制
 
@@ -2547,7 +2565,7 @@ String s4 = new String(char[] a,int startIndex,int count);
 
 方式一：先从常量池查看是否有 "jeff" 数据空间，如果有，直接指向；如果没有则重新创建，然后指向。s最终指向的是常量池的空间地址
 
-方式二：现在堆中创建空间，里面维护了value属性，指向常量池的 "jeff" 空间。如果常量池中没有 "jeff" ，重新创建；如果有，直接通过 value 指向。最终指向的是堆中的空间地址
+方式二：先在堆中创建空间，里面维护了value属性，指向常量池的 "jeff" 空间。如果常量池中没有 "jeff" ，重新创建；如果有，直接通过 value 指向。最终指向的是堆中的空间地址
 
 ##### 11.2.4 字符串的特性
 
@@ -2560,6 +2578,7 @@ String a = "hello";
 String b = "abc";
 String c = a + b;
 String c1 = "hello" + "abc";
+System.out.println(c==c1);// false c指向堆，c1 直接指向常量池
 ```
 
 c1 是常量相加，看的是池
@@ -3730,122 +3749,3 @@ new File(String parent,String child);//根据父目录+子路径构建
 
 ![image-20220331162033893](../img/image-20220331162033893.png)
 
-##### 15.4.2 FileReader 和 FileWriter 介绍
-
-![image-20220331221717391](../img/image-20220331221717391.png)
-
-##### 15.4.3 FileReader 相关方法
-
-1、new FileReader(File/String)
-
-2、read:每次读取单个字符，返回该字符，如果到文件末尾返回 -1
-
-3、read(char[])：批量读取的哦个字符到数组，返回读取到的字符数，如果到文件末尾返回-1
-
-相关API：
-
-1、new String(char[])：将char[]转换成String
-
-2、new String(char[],off,len)：将char[]的指定部分转换成String
-
-##### 15.4.4 FileWriter 常用方法
-
-1、new FileWriter(File/String)：覆盖模式，相等于流的指针在首端
-
-2、new FileWriter(File/String,true)：追加模式，相等于流的指针在尾端
-
-3、writer(int)：写入单个字符
-
-4、writer(char[])：写入指定数组
-
-5、writer(char[],off,len)：写入指定数组的指定部分
-
-6、writer(string)：写入整个字符串
-
-7、writer(string,off,len)：写入字符串的指定部分
-
-相关API：
-
-String类 tocharArray：将String 转换成char[]
-
-注意：
-
-FileWriter 使用后，必须要关闭(close) 或刷新(flush)，否则写入不到指定的文件！
-
-#### 15.5 节点流和处理流
-
-##### 15.5.1 基本介绍
-
-![image-20220331223030892](../img/image-20220331223030892.png)
-
-##### 15.5.2 节点流和处理流一览图
-
-![image-20220331223107239](../img/image-20220331223107239.png)
-
-##### 15.5.3 节点流和处理流的区别和联系
-
-1、节点流是底层流/低级流，直接跟数据源相接
-
-2、处理流（包装流）包装节点流，即可以消除不同节点流的实现差异，也可以提供更方便的方法来完成输入输出
-
-3、处理流（也叫包装流）对节点流进行包装，使用了修饰器设计模式，不会直接与数据源相连
-
-##### 15.5.4 处理流的功能主要体现在一下两个方面
-
-1、性能的提高：主要以增加缓冲的方式来提高输入输出的效率
-
-2、操作的便捷：处理流可能提供了一系列便捷的方法来一次输入输出大批量的数据，使用更加方便
-
-##### 15.5.5 处理流 BufferedReader 和BufferedWriter
-
-BufferedReader 和BufferedWriter 属于字符流，是按照字符来读取数据的
-
-关闭处理流时，只需要关闭外层流即可
-
-##### 15.5.6 处理流 BufferedInputStream 和 BufferedOutputStream
-
-![image-20220331223642624](../img/image-20220331223642624.png)
-
-![image-20220331223705164](../img/image-20220331223705164.png)
-
-![image-20220331223838240](../img/image-20220331223838240.png)
-
-##### 15.5.7 对象流ObjectInputStream 和ObjectOutputStream 
-
-序列化和反序列化
-
-1、序列化就是在保存数据时，保存**数据的值**和**数据类型**
-
-2、反序列化就是在恢复数据时，恢复**数据的值**和**数据类型**
-
-3、需要让某个对象支持序列化机制，则必须让其类是可序列化的，为了让某个类是可序列化的，该类必须实现如下两个接口之一
-
-Serializable 	//这是一个标记接口，没有方法
-
-Externalizable //该接口有方法需要实现，因此一般使用上面的Serializable 接口
-
-##### 15.5.8 对象流介绍
-
-功能：提供了对基本类型或对象类型的序列化和反序列化方法
-
-ObjectOutputStream 提供 序列化功能 
-
-ObjectInputStream 提供 反序列化功能
-
-![image-20220331224530646](../img/image-20220331224530646.png)
-
-![image-20220331224548647](../img/image-20220331224548647.png)
-
-##### 15.5.9 序列化和反序列化注意事项和细节
-
-1、读写顺序要一致
-
-2、要求序列化或反序列化对象，需要实现 Serializable
-
-3、序列化的类中建议添加SerialVersionUID，为了提高版本的兼容性
-
-4、序列化对象时，默认将里面所有属性都进行序列化，但除了static 或transient修饰的成员
-
-5、序列化对象时，要求里面属性的类型也需要实现序列化接口
-
-6、序列化具备可继承性，也就是如果某类已经实现了序列化，则它的所有子类也已经默认实现了序列化
