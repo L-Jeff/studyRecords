@@ -3749,3 +3749,381 @@ new File(String parent,String child);//根据父目录+子路径构建
 
 ![image-20220331162033893](../img/image-20220331162033893.png)
 
+
+##### 15.4.2 FileReader 和 FileWriter 介绍
+
+![image-20220331221717391](../img/image-20220331221717391.png)
+
+##### 15.4.3 FileReader 相关方法
+
+1、new FileReader(File/String)
+
+2、read:每次读取单个字符，返回该字符，如果到文件末尾返回 -1
+
+3、read(char[])：批量读取的哦个字符到数组，返回读取到的字符数，如果到文件末尾返回-1
+
+相关API：
+
+1、new String(char[])：将char[]转换成String
+
+2、new String(char[],off,len)：将char[]的指定部分转换成String
+
+##### 15.4.4 FileWriter 常用方法
+
+1、new FileWriter(File/String)：覆盖模式，相等于流的指针在首端
+
+2、new FileWriter(File/String,true)：追加模式，相等于流的指针在尾端
+
+3、writer(int)：写入单个字符
+
+4、writer(char[])：写入指定数组
+
+5、writer(char[],off,len)：写入指定数组的指定部分
+
+6、writer(string)：写入整个字符串
+
+7、writer(string,off,len)：写入字符串的指定部分
+
+相关API：
+
+String类 tocharArray：将String 转换成char[]
+
+注意：
+
+FileWriter 使用后，必须要关闭(close) 或刷新(flush)，否则写入不到指定的文件！
+
+#### 15.5 节点流和处理流
+
+##### 15.5.1 基本介绍
+
+![image-20220331223030892](../img/image-20220331223030892.png)
+
+##### 15.5.2 节点流和处理流一览图
+
+![image-20220331223107239](../img/image-20220331223107239.png)
+
+##### 15.5.3 节点流和处理流的区别和联系
+
+1、节点流是底层流/低级流，直接跟数据源相接
+
+2、处理流（包装流）包装节点流，即可以消除不同节点流的实现差异，也可以提供更方便的方法来完成输入输出
+
+3、处理流（也叫包装流）对节点流进行包装，使用了修饰器设计模式，不会直接与数据源相连
+
+##### 15.5.4 处理流的功能主要体现在一下两个方面
+
+1、性能的提高：主要以增加缓冲的方式来提高输入输出的效率
+
+2、操作的便捷：处理流可能提供了一系列便捷的方法来一次输入输出大批量的数据，使用更加方便
+
+##### 15.5.5 处理流 BufferedReader 和BufferedWriter
+
+BufferedReader 和BufferedWriter 属于字符流，是按照字符来读取数据的
+
+关闭处理流时，只需要关闭外层流即可
+
+##### 15.5.6 处理流 BufferedInputStream 和 BufferedOutputStream
+
+![image-20220331223642624](../img/image-20220331223642624.png)
+
+![image-20220331223705164](../img/image-20220331223705164.png)
+
+![image-20220331223838240](../img/image-20220331223838240.png)
+
+##### 15.5.7 对象流ObjectInputStream 和ObjectOutputStream 
+
+序列化和反序列化
+
+1、序列化就是在保存数据时，保存**数据的值**和**数据类型**
+
+2、反序列化就是在恢复数据时，恢复**数据的值**和**数据类型**
+
+3、需要让某个对象支持序列化机制，则必须让其类是可序列化的，为了让某个类是可序列化的，该类必须实现如下两个接口之一
+
+Serializable   //这是一个标记接口，没有方法
+
+Externalizable //该接口有方法需要实现，因此一般使用上面的Serializable 接口
+
+##### 15.5.8 对象流介绍
+
+功能：提供了对基本类型或对象类型的序列化和反序列化方法
+
+ObjectOutputStream 提供 序列化功能 
+
+ObjectInputStream 提供 反序列化功能
+
+![image-20220331224530646](../img/image-20220331224530646.png)
+
+![image-20220331224548647](../img/image-20220331224548647.png)
+
+##### 15.5.9 序列化和反序列化注意事项和细节
+
+1、读写顺序要一致
+
+2、要求序列化或反序列化对象，需要实现 Serializable
+
+3、序列化的类中建议添加SerialVersionUID，为了提高版本的兼容性
+
+4、序列化对象时，默认将里面所有属性都进行序列化，但除了static 或transient修饰的成员
+
+5、序列化对象时，要求里面属性的类型也需要实现序列化接口
+
+6、序列化具备可继承性，也就是如果某类已经实现了序列化，则它的所有子类也已经默认实现了序列化
+
+##### 15.5.10 标准输入输出流
+
+介绍
+
+System.in 标准输入			InputStream
+
+System.out 标准输出		 OutputStream
+
+##### 15.5.11 转换流- InputStreamReader 和 OutputStreamWriter
+
+1、InputStreamReader：Reader 的子类，可以将InputStream（字节流）包装成（**转换**）Reader（字符流）
+
+2、OutputStreamWriter：Writer 的子类，实现将OutputStream（字节流）包装成Writer（字符流）
+
+3、当处理纯文本数据时，如果使用字符流效率更高，并且可以有效解决中文问题，所以建议将字节流转换成字符流
+
+4、可以在使用时指定编码格式（比如 utf-8, gbk, gb2312 等）
+
+#### 15.6 打印流-PrintStream 和 PrintWriter
+
+打印流只有输出流，没有输入流
+
+#### 15.6 Properties 类
+
+##### 15.6.1 流程
+
+![image-20220401230624023](../img/image-20220401230624023.png)
+
+##### 15.6.2 基本介绍
+
+1、专门用于读写配置文件的集合类
+
+​	配置文件的格式：
+
+​	键=值
+
+2、注意：键值对不需要有空格，值不需要引号括起来。默认类型是String
+
+3、Properties 的常见方法
+
+![image-20220401230812547](../img/image-20220401230812547.png)
+
+# 第十六章 网络编程
+
+#### 16.1 网络的相关概念
+
+##### 16.1.1 网络通信
+
+1、概念：两台设备之间通过网络实现数据传输
+
+2、网络通信：将数据通过网络从一台设备传输到另一台设备
+
+3、java.net 包下提供了一系列的类或接口，供程序员使用，完成网络通信
+
+##### 16.1.2 网络
+
+1、概念：两台或多台设备通过一定物理设备连接起来构成了网络
+
+2、根据网络的覆盖范围不同，对网络进行分类
+
+局域网：覆盖范围最小，仅仅覆盖一个教室或一个机房
+
+城域网：覆盖范围较大，可以覆盖一个城市
+
+广域网：覆盖范围最大，可以覆盖全国，甚至全球，万维网是广域网的代表
+
+##### 16.1.3 ip地址
+
+1、概念：用于唯一标识网络中的每台计算机/主机
+
+2、查看ip地址：ipconfig
+
+3、ip地址的表示形式：点分十进制 xx.xx.xx.xx
+
+4、每一个十进制数的范围：0~255
+
+5、ip 地址的组成 = 网络地址+主机地址，比如：192.168.16.69
+
+6、iIPv6是互联网工程任务组设计的用于替代IPv4 的下一代IP协议，其地址数量号称可以为全世界的每一粒沙子编上一个地址
+
+7、由于IPv4 的最大的问题在与网络地址资源有限，严重制约了互联网的应用和发展。IPv6的使用，不仅能解决网络地址资源数量的问题，而且也解决了多种接入设备连入互联网的障碍
+
+##### 16.1.4 ipv4 地址分类
+
+![image-20220401231612814](../img/image-20220401231612814.png)
+
+![image-20220401231626665](../img/image-20220401231626665.png)
+
+##### 16.1.5 域名
+
+1、www.baidu.com
+
+2、好处：为了方便记忆，解决记ip的困难
+
+3、概念：将ip 地址映射成域名，HTTP协议
+
+端口号
+
+1、概念：用于标识计算机上某个特定的网络程序
+
+2、表示形式：以整数形式，端口范围0~65535【两个字节表示端口 0~2^16 -1】
+
+3、0~1024已经被占用，比如 ssh 22,ftp 21 等
+
+4、常见的网络程序端口号
+
+​	Tomcat：8080
+
+​	MySQL：3306
+
+​	oracle：1521
+
+​	SQLserver：1433
+
+##### 16.1.6 网络通信协议
+
+![image-20220401232103241](../img/image-20220401232103241.png)
+
+协议（tcp/ip）
+
+TCP/IP （Transmission Control Protocal/Internet Protocol）的简写，中文译名为传输控制协议/因特网互联协议，又叫网络通讯协议，这个协议是Internet最基本的协议，Internet国际互联网络的基础，简单地说，就是有网络层的IP协议和传输层的TCP协议组成的
+
+##### 16.1.7 网络通信协议
+
+![image-20220401232543904](../img/image-20220401232543904.png)
+
+##### 16.1.8 TCP 和 UDP
+
+TCP协议：传输控制协议
+
+1、使用TCP协议前，须先建立TCP连接，形成传输数据通道
+
+2、传输前，采用“三次握手”方式，是**可靠的**
+
+3、TCP协议进行通信的两个应用进程：客户端、服务端
+
+4、在连接中可进行大数据量的传输
+
+5、传输完毕，需释放已建立的连接，**效率低**
+
+UDP协议：用户数据协议
+
+1、将数据、源、目的封装成数据包，不需要建立连接
+
+2、每个数据包的大小限制在64K内，不适合传输大量数据
+
+3、因无需连接，故是**不可靠的**
+
+4、发送数据结束时无需释放资源（因为不是面向连接的），速度快
+
+#### 16.2 InetAddress 类
+
+##### 16.2.1 相关方法
+
+1、获取本机InetAddress 对象，getLocalHost
+
+2、根据指定主机名/域名获取ip地址对象 getByName
+
+3、获取InetAddress 对象的主机名 getHostName
+
+4、获取InetAddress 对象的地址 getHostAddress
+
+```java
+//获取本机 InetAddress 对象 getLocalHost
+InetAddress localHost = InetAddress.getLocalHost();
+System.out.println(localHost);
+//根据指定主机名/域名获取 ip 地址对象 getByName
+InetAddress host2 = InetAddress.getByName("ThinkPad-PC");
+System.out.println(host2);
+InetAddress host3 = InetAddress.getByName("www.hsp.com");
+System.out.println(host3);
+//获取 InetAddress 对象的主机名 getHostName
+String host3Name = host3.getHostName();
+System.out.println(host3Name);
+//获取 InetAddress 对象的地址 getHostAddress
+String host3Address = host3.getHostAddress();
+System.out.println(host3Address);
+```
+
+#### 16.3 Socket
+
+##### 16.3.1 基本介绍
+
+1、套接字（Socket）开发网络应用程序被广泛采用，以至于成为事实上的标准
+
+2、通信的两端都要有Socket，是两台机器间通信的端点
+
+3、网络通信其实就是Socket 间的通信
+
+4、Socket 允许程序把网络连接当成一个流，数据在两个Socket 间通过IO 传输
+
+5、一般主动发起通信的应用程序属客户端，等待通信请求的为服务端
+
+![image-20220401233417754](../img/image-20220401233417754.png)
+
+#### 16.4 TCP网络通信编程
+
+##### 16.4.1 基本介绍
+
+1、基于客户端——服务端的网络通信
+
+2、底层使用的是TCP/IP协议
+
+3、应用场景：客户端发送数据，服务端接受并显示控制台
+
+4、基于Socket 的TCP编程
+
+![image-20220401233620169](../img/image-20220401233620169.png)
+
+##### 16.4.2 netstat 指令
+
+1、netstat -an 可以查看当前主机网络情况，包括**端口监听**情况和**网络连接**快乐
+
+2、netstat -an|more 可以分页显示
+
+3、要求在dos 控制台下执行 win + r
+
+说明：
+
+1、Listening 表示某个端口在监听
+
+2、如果有一个外部程序（客户端），连接到该端口，就会显示一条连接信息
+
+3、可以输入 ctrl + c 退出指令
+
+![image-20220402001224723](../img/image-20220402001224723.png)
+
+##### 16.4.3 TCP 网络通信
+
+![image-20220402001306128](../img/image-20220402001306128.png)
+
+1、当客户端连接到服务端后，实际上客户端也是通过一个端口和服务端进行通讯的，这个端口是TCP/IP 来分配的，是不确定的，是随机的
+
+#### 16.5 UDP 网络通信编程（了解）
+
+##### 16.5.1 基本介绍
+
+1、类 DatagramSocket 和 DatagramPacket [数据包/数据报] 实现了基于 UDP 协议网络程序
+
+2、UDP 数据报通过数据报套接字 DatagramSocket 发送和接受，系统不保证UDP 数据报一定能够安全送到目的地，也不确定什么时候可以抵达
+
+3、DatagramPacket 对象封装了UDP 数据报，在数据报中包含了发送端的IP 地址和端口号以及接收端的IP 地址和端口号
+
+4、UDP 协议中每个数据报都给出了完整的地址信息，因此无需建立发送方和接受方的连接
+
+##### 16.5.2 基本流程
+
+1、核心的两个类/对象 DatagramSocket 和 DatagramPacket
+
+2、建立发送前，接收端（没有服务端和客户端概念）
+
+3、发送数据前，建立数据包/报，DatagramPacket 对象
+
+4、调用DatagramSocket  的发送、接收方法
+
+5、关闭DatagramPacket 
+
