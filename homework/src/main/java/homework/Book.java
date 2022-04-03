@@ -56,4 +56,8 @@ public class Book implements Comparable{
                 ", author='" + author + '\'' +
                 '}';
     }
+
+    public void greeting(){
+        System.out.println("hi ,I'm book Class");
+    }
 }
